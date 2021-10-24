@@ -10,12 +10,16 @@ class Personne {
     // Method Déplacement
     seDeplacer(depart, arrivee) {
         arrivee.personnes.push(this.nom);
-        depart.personnes.pop();
+        depart.personnes.splice(depart.personnes.indexOf(this), 1);
     };
 // ----------------------------------------------------------
     // PayeArticle
     payerArticle(ingredient){
-        this.argent = this.argent - ingredient.prix;
+        if (this.argent == 0) {
+            console.log("tu n'as pas asser d'argent pour acheter ceux ci.");
+        }else{
+            this.argent = this.argent - ingredient.prix;
+        }
     };
     // -------------
     // Couper
@@ -85,66 +89,66 @@ let outils = {
 // ----------------------------------------------------------
 //                                                          DÉBUT DE L'OMELETTE
 
-//                                                               Maison
+//Maison
 personnes.seDeplacer(epicerie,maison);
 console.log(`${maison.personnes} est actuellement à la ${maison.nom}.`);
-//                                                          bouge a l'epicerie
+//bouge a l'epicerie
 personnes.seDeplacer(maison,epicerie);
 console.log(`${epicerie.personnes} a bouger a l'${epicerie.nom}.`);
-//                                                          paniers main Droite
+//paniers main Droite
 personnes.mainDroite.push(epicerie.paniers);
 console.log(`${personnes.nom} a pris un ${epicerie.paniers[0].type}.`);                                                    
-//                                                          Ingredients 1 par 1
+//Ingredients 1 par 1
 epicerie.ingredient.forEach(el => {
     personnes.mainDroite[0].contenu.push(el);
     console.log(`${personnes.nom} a pris un : ${el.nom}`);
 });
-//                                                          Paye article
+//Paye article
 personnes.mainDroite[0].contenu.forEach(el => {
     personnes.payerArticle(el);
     console.log(`${personnes.nom} achete un ${el.nom} au prix de : ${el.prix}€`);
 });
-//                                                          Solde du Compte
+//Solde du Compte
 console.log(`le solde de votre compte : ${personnes.argent}€.`);
-//                                                          Deplacement maison
+//Deplacement maison
 personnes.seDeplacer(epicerie,maison);
 console.log(`${maison.personnes} rentre à la ${maison.nom} pour cuisiner.`);
-//                                                          Ingrédient dans le bol
+//Ingrédient dans le bol
 personnes.mainDroite[0].contenu.forEach(el => {
     bol.contenu.push(el)
     console.log(`${el.nom} a été ajouté dans le bol`);  
 });
-//                                                        Vérifier que les ingrédients ne trouvent plus dans le panie     
+//Vérifier que les ingrédients ne trouvent plus dans le panie     
 personnes.mainDroite[0].contenu = [];
 console.log(personnes.mainDroite[0].contenu);
-//                                                          Bouge a l'épicerie
+//Bouge a l'épicerie
 personnes.seDeplacer(maison,epicerie);
 console.log(`${epicerie.personnes} est partie à l'${epicerie.nom} déposer le pannier.`);
 console.log(`${personnes.nom} depose le panier.`);
 personnes.mainDroite.pop();
 personnes.mainDroite.pop();
 console.log(personnes.mainDroite);
-//                                                         Bouge a la maison
+//Bouge a la maison
 personnes.seDeplacer(epicerie,maison);
 console.log(`${maison.personnes} est actuellement à la ${maison.nom}.`);
-//                                                         petit Message
+//petit Message
 console.log("Doucement sur le projet Ayhan.");
-//                                                         verif le contenu
+//verif le contenu
 bol.contenu.forEach(el => {
     if (el.etat == "entier") {
         personnes.couper(el);
         console.log(`${el.nom} a été découper`);
     }
 });
-//                                                           Melanger
+//Melanger
 bol.melanger('omelette');
 console.log(`on a fini de mélanger`);
-//                                                      push dans la poele et supprimer dans le bol 
+//push dans la poele et supprimer dans le bol 
 console.log("on verse le bol dans la poêle");
 poêle.contenu.push(bol.contenu[0]);
 bol.contenu.splice(0,1);
 console.log(`le bol est vide`);
-//                                                              cuir
+//cuir
 poêle.cuir();
 console.log("L'omellete est entrain de cuir");
 
